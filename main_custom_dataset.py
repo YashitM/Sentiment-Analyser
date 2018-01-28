@@ -1,7 +1,7 @@
 """
  *  Author : YashitM 
  *  Created On : Sat Jan 27 2018
- *  File : main.py
+ *  File : main_custom_dataset.py
 """
 import numpy
 import pandas as pd
@@ -20,28 +20,30 @@ def get_filtered_words(sentence):
     return filtered_words
 
 
-def get_negative_sentences():
-    negative = []
-    for item in movie_reviews.fileids('neg'):
-        words = movie_reviews.words(item)
-        negative.append((get_filtered_words(words), "negative"))
-    return negative
+def get_positive_sentences_custom():
+    f = open("custom_dataset/pos.txt", "r").readlines()
+    pos = []
+    for i in f:
+        words = word_tokenize(i)
+        pos.append((get_filtered_words(words), "positive"))
+    return pos
 
 
-def get_positive_sentences():
-    positive = []
-    for item in movie_reviews.fileids('pos'):
-        words = movie_reviews.words(item)
-        positive.append((get_filtered_words(words), "positive"))
-    return positive
+def get_negative_sentences_custom():
+    f = open("custom_dataset/neg.txt", "r").readlines()
+    neg = []
+    for i in f:
+        words = word_tokenize(i)
+        neg.append((get_filtered_words(words), "negative"))
+    return neg
 
 
 def main(sentence):
     tokenized_sentence = word_tokenize(sentence)
     filtered_sentence = get_filtered_words(tokenized_sentence)
 
-    negative_reviews = get_negative_sentences()
-    positive_reviews = get_positive_sentences()
+    negative_reviews = get_negative_sentences_custom()
+    positive_reviews = get_positive_sentences_custom()
 
     data = negative_reviews + positive_reviews
 
